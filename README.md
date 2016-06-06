@@ -43,13 +43,13 @@ We need to have selection of parts, which should include distance sensor, LEDs a
 * Choice: Select option 3 as I need to use widely available parts and solution should be solid to travel often to a long distances
 
 ![RESTbox DIN rail base image]
-(restbox/img/din-rail.jpg)
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/din-rail.jpg)
 
 ## electric connectors
 I selected cheapest and simplest wires and connectors, use 3 wires – GND, +5V, pin
 
 ![RESTbox connector image]
-(restbox/img/din-rail-connector.jpg)
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/din-rail-connector.jpg)
 
 ## microcontroller
 * Option 1: Arduino
@@ -62,7 +62,7 @@ I selected cheapest and simplest wires and connectors, use 3 wires – GND, +5V,
  *	Cons: No integrated Power over Ethernet, 3.3V on pins (not suitable for available sensors)
 
  ![RESTbox rpi image]
- (restbox/img/rpi.jpg)
+ (https://raw.githubusercontent.com/rvolkov/restbox/master/img/rpi.jpg)
 
  * Choice: Power over Ethernet is important, also 5V output on pins is important for this project. Performance is not important.  Low-level or high-level programming language is not important, as all the logic will be into external  program. So I select Arduino + Ethernet shield + PoE module.
 * RPI version - for the future
@@ -84,12 +84,12 @@ I don’t have any options here except button, switch and ultrasonic distance me
 No any options for now, only LED lights
 
 ![RESTbox rpi image]
-(restbox/img/led-module.jpg)
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/led-module.jpg)
 
 ## project initial picture
 
 ![RESTbox rpi image]
-(restbox/img/restbox-dev.jpg)
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/restbox-dev.jpg)
 
 ## project devices picture
 
