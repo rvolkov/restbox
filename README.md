@@ -42,24 +42,24 @@ We need to have selection of parts, which should include distance sensor, LEDs a
   *	Cons: heavy and big
 * Choice: Select option 3 as I need to use widely available parts and solution should be solid to travel often to a long distances
 ![RESTbox DIN rail base image]
-(https://github.com/rvolkov/restbox/img/din-rail.jpg)
+(restbox/img/din-rail.jpg)
 
 ## Electric connectors
 I selected cheapest and simplest wires and connectors, use 3 wires – GND, +5V, pin
 ![RESTbox connector image]
-(https://github.com/rvolkov/restbox/img/din-rail-connector.jpg)
+(restbox/img/din-rail-connector.jpg)
 
 ## Microcontroller
 * Option 1: Arduino
   * Props: cheap, 5V on pins, cheap power over Ethernet module
   *	Cons: low performance, low-level programming
 ![RESTbox arduino image]
-(https://github.com/rvolkov/restbox/img/controller-wiring.jpg)
+(restbox/img/controller-wiring.jpg)
 * Option 2: Raspberry PI
  *	Props: high performance, high level programming language
  *	Cons: No integrated Power over Ethernet, 3.3V on pins (not suitable for available sensors)
  ![RESTbox rpi image]
- (https://github.com/rvolkov/restbox/img/rpi.jpg)
+ (restbox/img/rpi.jpg)
 
  * Choice: Power over Ethernet is important, also 5V output on pins is important for this project. Performance is not important.  Low-level or high-level programming language is not important, as all the logic will be into external  program. So I select Arduino + Ethernet shield + PoE module.
 * RPI version - for the future
