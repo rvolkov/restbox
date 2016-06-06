@@ -55,14 +55,13 @@ I selected cheapest and simplest wires and connectors, use 3 wires – GND, +5V,
 * Option 1: Arduino
   * Props: cheap, 5V on pins, cheap power over Ethernet module
   *	Cons: low performance, low-level programming
+
 ![RESTbox arduino image]
-(restbox/img/controller-wiring.jpg)
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/controller-wiring.jpg)
+
 * Option 2: Raspberry PI
  *	Props: high performance, high level programming language
  *	Cons: No integrated Power over Ethernet, 3.3V on pins (not suitable for available sensors)
-
- ![RESTbox rpi image]
- (https://raw.githubusercontent.com/rvolkov/restbox/master/img/rpi.jpg)
 
  * Choice: Power over Ethernet is important, also 5V output on pins is important for this project. Performance is not important.  Low-level or high-level programming language is not important, as all the logic will be into external  program. So I select Arduino + Ethernet shield + PoE module.
 * RPI version - for the future
@@ -95,3 +94,37 @@ No any options for now, only LED lights
 
 ![RESTbox rpi image]
 (https://raw.githubusercontent.com/rvolkov/restbox/master/img/restbox-2.png)
+
+## server part
+Should be able to accept HTTP requests from RESTbox and show results. Also users should be able to control actuators from Web interface. In the future users should be able to add code to integrate server to work with own devices (like routers or other equipment).
+Server software should be easily hosted on popular PaaS platforms, Node.js has best support, so server software will be developed on Node.js
+
+## Test Procedure Description
+### Components Testing
+*	Install software to controller, check that no errors during compilation
+*	Connect controller to the PoE Ethernet switch, check that PoE board powered controller up
+*	Look into console messages from controller to see DHCP IP address assignment
+*	Look into console messages from controller to see HTTP GET successful to the external server
+*	Connect mount board with button, check that button press generates debug message on console
+*	Connect mount board with distance sensor and check that we can see debug messages in case of changes on sensor
+*	Connect mount board with LED and check that LED is switching on and off
+### Integration Testing
+Arduino pins:
+*	2&3 for ultrasound distance sensor
+*	4 for red LED
+*	5 for green LED
+*	6 for big red button
+*	7 for switch
+
+Controller was connected to Cisco3650-PoE switch with Ethernet, this switch was connected to Cisco Router as DHCP server and to the laptop with RESTbox server software. Controller software was coded to connect to the notebook IP address.
+
+Next tests:
+*	press Big Red Button, check that HTTP POST was sent to the server
+*	enable switch, check that HTTP POST was sent to the server
+*	disable switch, check that HTTP POST was sent to the server
+*	insert hand into distance sensor area of work  and check that HTTP POST was sent to the server
+*	check that controller send HTTP GETs every 5 seconds to the server to ask for LED status
+*	change server configuration to answer on HTTP GETs for LEDs and check that LEDs changed state (from off to on and from on to off)
+
+![RESTbox in work]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/restbox-test.jpg)
