@@ -94,4 +94,4 @@ No any options for now, only LED lights
 ## project devices picture
 
 ![RESTbox rpi image]
-(restbox/img/restbox-2.png)
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/restbox-2.png)
