@@ -160,7 +160,63 @@ Next tests:
 ![build3]
 (https://raw.githubusercontent.com/rvolkov/restbox/master/img/build3.jpg)
 
-## Arduino scetch
+## Arduino sketch
+At arduino/restbox-arduino-v1-b1b2, you need to set passphrase and box controller name.
+They should match with server configuration.
 
 ## RESTbox server controller
 Node.js, you can host it on heroku.com, also you can pack application into Docker container. Before run - edit app_node/config.js. It supports Cisco CSR1000v devices.
+
+## Cisco CSR1000v
+```
+no ip domain-lookup
+ip domain name restbox.yourdomain.com
+username rest privi 15 secret RestPwd
+ip access-list extended STOP443
+ deny   tcp any any eq 443
+ permit ip any any
+ip access-list extended STOP80
+ deny   tcp any any eq www
+ permit ip any any
+ip access-list extended STOPPING
+ deny   icmp any any echo
+ deny   icmp any any echo-reply
+ permit ip any any
+```
+* CSR-AWS reinit commands:
+```
+no ip http secure-server
+no ip http server
+virtual-service csr_mgmt
+no activate
+```
+--- wait 10 seconds ---
+```
+no virtual-service csr_mgmt
+```
+--- wait 10 seconds ---
+```
+ip http server
+ip http secure-server
+virtual-service csr_mgmt
+ip shared host-interface GigabitEthernet1
+ activate
+```
+--- wait 10 seconds ---
+* check with `show virtual-service list`
+
+## build as Docker container
+* Edit Dockerfile
+* standard build process for node.js version:
+```
+docker rmi rvolkov/restbox
+docker build -f Dockerfile -t rvolkov/restbox .
+docker save -o restbox.tar rvolkov/restbox
+gzip restbox.tar
+```
+* copy to server and do on server
+```
+gunzip restbox.tar.gz
+docker load -i restbox.tar
+docker run -p 80:3001 -d rvolkov/restbox
+```
