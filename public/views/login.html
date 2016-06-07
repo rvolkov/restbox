@@ -1,0 +1,34 @@
+<div ng-controller="LoginCtrl">
+    <div class="jumbotron">
+        <div class="container">
+            <center>
+                <h3>
+                    RESTbox controller
+                </h3>
+            </center>
+        </div>
+    </div>
+    <div class="container">
+    <p>
+        <form role="form" class="form-horizontal" name="form" ng-submit="submit()" novalidate>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input ng-model="user.username" type="text" name="username" placeholder="username" id="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input ng-model="user.password" type="password" name="password" placeholder="password" id="password"><br>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-log-in" area-hidden="true"></span> Log In
+            </button>
+        </form>
+    </p>
+    </div>
+    <hr>
+    <div class="container">
+      <footer>
+          <p>API: {{apiroot}} &middot; <strong>{{error}}</strong></p>
+      </footer>
+    </div>
+</div><!-- ngController -->

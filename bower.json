@@ -1,0 +1,17 @@
+{
+  "name": "RESTbox controller",
+  "version": "0.0.1",
+  "dependencies": {
+    "angular": "*",
+    "json3": "*",
+    "es5-shim": "*",
+    "jquery": "*",
+    "angular-resource": "*",
+    "angular-route": "*",
+    "bootstrap": "*"
+  },
+  "devDependencies": {
+    "angular-mocks": "*",
+    "angular-scenario": "*"
+  }
+}

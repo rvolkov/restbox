@@ -1,0 +1,138 @@
+<div ng-controller="MainCtrl">
+    <div class="jumbotron">
+        <div class="container">
+            <center>
+                <h3>
+                    RESTbox controller
+                </h3>
+            </center>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row row-content">
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-link" ng-click="logout()">
+                  <span class="glyphicon glyphicon-log-out" area-hidden="true"></span> Log Out
+                </button>
+                <button type="button" class="btn btn-info" ng-click="reloadBox()">update</button>
+                <button type="button" class="btn btn-success" ng-show="!noserver">
+                    Server {{apiroot}} is ok
+                </button>
+                <button type="button" class="btn btn-danger" ng-show="noserver">
+                    Server {{apiroot}} is not available, wait for any response
+                </button>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-content">
+            <!-- ng-repeat="bc in boxctrls" -->
+            <div ng-repeat="bc in boxctrls" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Box Name: <strong>{{bc.name}}</strong> <small>requests:{{bc.ready}}</small></h3>
+                    </div>
+                    <div class="panel panel-info" ng-repeat="bb in bc.boxes">
+                        <div class="panel-heading">
+                            {{bb.descr}}
+                        </div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default">Box id: {{bb.id}}</button>
+                            <button type="button" class="btn btn-default">type: {{bb.type}}</button>
+                            <button type="button" class="btn btn-default">status: {{bb.status}}</button>
+                        </div>
+                        <span ng-if="bb.type == 'usonic'">
+                            distance: {{bb.status}} cm
+                            <div class="panel panel-success">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{bb.status}}" aria-valuemin="0" aria-valuemax="100" ng-style="{'width': '{{bb.status}}%'}">
+                                        <span class="sr-only">{{bb.status}} cm</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                If less 50cm but more 1cm:
+                                <select ng-model="bb.onfunc" ng-change="putOnFunc(bc.name,bb.type,bb.id,bb.onfunc)">
+                                    <option ng-repeat="bbb in action_functions" value="{{bbb.name}}">{{bbb.descr}}</option>
+                                </select>
+                                <!--select ng-model="bb.onfunc" ng-change="putOnFunc(bc.name,bb.type,bb.id,bb.onfunc)" ng-options="bbb.name as bbb.descr for bbb in action_functions">
+                                </select-->
+                            </div>
+                            <div class="form-group">
+                                If more 50cm but less 100cm:
+                                <select ng-model="bb.offfunc" ng-change="putOffFunc(bc.name,bb.type,bb.id,bb.offfunc)">
+                                    <option ng-repeat="bbb in action_functions" value="{{bbb.name}}">{{bbb.descr}}</option>
+                                </select>
+                            </div>
+                        </span>
+                        <span ng-if="bb.type == 'switch'">
+                            <button type="button" class="btn btn-primary" ng-show="!bb.status">Switch off</button>
+                            <button type="button" class="btn btn-danger" ng-show="bb.status">Switch on</button>
+                            switch: {{bb.status}}
+                            <div class="form-group">
+                                Switch ON:
+                                <select ng-model="bb.onfunc" ng-change="putOnFunc(bc.name,bb.type,bb.id,bb.onfunc)">
+                                    <option ng-repeat="bbb in action_functions" value="{{bbb.name}}">{{bbb.descr}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Switch OFF:
+                                <select ng-model="bb.offfunc" ng-change="putOffFunc(bc.name,bb.type,bb.id,bb.offfunc)">
+                                    <option ng-repeat="bbb in action_functions" value="{{bbb.name}}">{{bbb.descr}}</option>
+                                </select>
+                            </div>
+                        </span>
+                        <span ng-if="bb.type == 'button'">
+                            <button type="button" class="btn btn-primary" ng-show="!bb.status">Button off</button>
+                            <button type="button" class="btn btn-danger" ng-show="bb.status">Button on</button>
+                            button: {{bb.status}}
+                            <div class="form-group">
+                                Button ON:
+                                <select ng-model="bb.onfunc" ng-change="putOnFunc(bc.name,bb.type,bb.id,bb.onfunc)">
+                                    <option ng-repeat="bbb in action_functions" value="{{bbb.name}}">{{bbb.descr}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                Button OFF:
+                                <select ng-model="bb.offfunc" ng-change="putOffFunc(bc.name,bb.type,bb.id,bb.offfunc)">
+                                    <option ng-repeat="bbb in action_functions" value="{{bbb.name}}">{{bbb.descr}}</option>
+                                </select>
+                            </div>
+                        </span>
+                        <span ng-if="bb.type == 'led'">
+                            <!-- ng-show="!bb.status" -->
+                            <button type="button" class="btn btn-success" ng-show="!bb.status" ng-click="putBoxctrl(bc.name,bb.type,bb.id,1)">LED off</button>
+                            <!-- ng-show="bb.status" -->
+                            <button type="button" class="btn btn-danger" ng-show="bb.status" ng-click="putBoxctrl(bc.name,bb.type,bb.id,0)">LED on</button>
+                            led: {{bb.status}}
+                            <div class="form-group">
+                                LED ON by:
+                                <select ng-model="bb.rfunc" ng-change="putRFunc(bc.name,bb.type,bb.id,bb.rfunc)">
+                                    <option ng-repeat="bbb in read_functions" value="{{bbb.name}}">{{bbb.descr}}</option>
+                                </select>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row row-content">
+            <div class="col-xs-12">
+                <button type="button" class="btn btn-link" ng-click="logout()">
+                  <span class="glyphicon glyphicon-log-out" area-hidden="true"></span> Log Out
+                </button>
+                <button type="button" class="btn btn-info" ng-click="reloadBox()"> Update </button>
+            </div>
+        </div>
+        <button ng-repeat="bbb in action_functions" type="button" class="btn btn-default" ng-click="call_afunc(bbb.name)">Call ({{bbb.descr}})</button>
+        <ul>
+            <button type="button" class="btn btn-default" ng-click="getRouters()">Get router info</button>
+            <li ng-repeat="rrr in routers">{{rrr.name}} {{rrr.host}} {{rrr.token}}</li>
+        </ul>
+    </div>
+    <hr>
+    <div class="container">
+      <footer>
+          <p>API: {{apiroot}} &middot; Error: <strong>{{error}}</strong></p>
+      </footer>
+    </div>
+</div><!-- ngController -->

@@ -1,0 +1,30 @@
+{
+  "name": "RESTbox",
+  "description": "RESTbox controller",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./www",
+    "test": "mocha",
+    "postinstall": "bower cache clean && bower update --force-latest"
+  },
+  "dependencies": {
+    "express": "*",
+    "body-parser": "*",
+    "bower": "*",
+    "cors": "*",
+    "jsonwebtoken": "*",
+    "express-jwt": "*",
+    "node-rest-client": "*",
+    "btoa": "*"
+  },
+  "engines": {
+    "node": "*",
+    "npm": "*"
+  },
+  "devDependencies": {
+      "hippie": "*",
+      "supertest": "*",
+      "mocha": "*"
+  }
+}
