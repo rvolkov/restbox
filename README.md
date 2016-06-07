@@ -166,6 +166,13 @@ They should match with server configuration.
 
 ## RESTbox server controller
 Node.js, you can host it on heroku.com, also you can pack application into Docker container. Before run - edit app_node/config.js. It supports Cisco CSR1000v devices.
+* Install Node.js.
+* Clone this project from github.
+* Run `npm install` in project directory
+* Run `bower install` in project directory
+* Run `nodemon` to start project locally
+* Point browser to `http://127.0.0.1:3001`
+* Enter login/password from app_node/config.js
 
 ## Cisco CSR1000v
 ```
