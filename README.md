@@ -63,7 +63,7 @@ I selected cheapest and simplest wires and connectors, use 3 wires – GND, +5V,
  *	Props: high performance, high level programming language
  *	Cons: No integrated Power over Ethernet, 3.3V on pins (not suitable for available sensors)
 
- * Choice: Power over Ethernet is important, also 5V output on pins is important for this project. Performance is not important.  Low-level or high-level programming language is not important, as all the logic will be into external  program. So I select Arduino + Ethernet shield + PoE module.
+* Choice: Power over Ethernet is important, also 5V output on pins is important for this project. Performance is not important.  Low-level or high-level programming language is not important, as all the logic will be into external  program. So I select Arduino + Ethernet shield + PoE module.
 * RPI version - for the future
 
 ## network connection
@@ -128,3 +128,34 @@ Next tests:
 
 ![RESTbox in work]
 (https://raw.githubusercontent.com/rvolkov/restbox/master/img/restbox-test.jpg)
+
+## hardware parts
+### arduino controller
+![arduino]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/arduino.jpg)
+
+### ethernet shield
+![ethernet]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/ethernet.jpg)
+
+### PoE module
+![poe1]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/poe1.jpg)
+![poe2]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/poe2.jpg)
+
+### switch
+![switch]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/switch.jpg)
+
+### ultrasonic sensor
+![ultrasonic]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/ultrasonic.jpg)
+
+### controller with boards
+![build1]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/build1.jpg)
+![build2]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/build2.jpg)
+![build3]
+(https://raw.githubusercontent.com/rvolkov/restbox/master/img/build3.jpg)
