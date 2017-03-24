@@ -1,17 +1,17 @@
 {
   "name": "restboxcontroller",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
-    "angular": "*",
-    "json3": "*",
-    "es5-shim": "*",
-    "jquery": "*",
-    "angular-resource": "*",
-    "angular-route": "*",
-    "bootstrap": "*"
+    "angular": "1.6.3",
+    "json3": "3.3.2",
+    "es5-shim": "4.5.9",
+    "jquery": "3.2.1",
+    "angular-resource": "1.6.3",
+    "angular-route": "1.6.3",
+    "bootstrap": "3.3.7"
   },
   "devDependencies": {
-    "angular-mocks": "*",
-    "angular-scenario": "*"
+    "angular-mocks": "1.6.3",
+    "angular-scenario": "1.6.3"
   }
 }

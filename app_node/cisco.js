@@ -13,7 +13,7 @@ var cisco = module.exports = {};
         // raw response
         console.log(response);
     });
-    
+
     /////// POST //////
     var args = {
         data: { test: "hello" },
@@ -25,7 +25,7 @@ var cisco = module.exports = {};
         console.log(data);
         // raw response
         console.log(response);
-    });    
+    });
 */
 
 var options = {
@@ -122,8 +122,12 @@ function csrreauth() {
     }
 }
 csrreauth();
-setInterval(csrreauth, 600000); //call every 600 seconds.
-
+setInterval(csrreauth, 200000); //call every 200 seconds.
+// force re-auth
+cisco.reauth = function() {
+    csrreauth();
+    return;
+}
 
 cisco.csrcall2 = function(devname, url, hdata, action, callback) {
     var client = new Client(options);
@@ -148,7 +152,7 @@ cisco.csrcall2 = function(devname, url, hdata, action, callback) {
                     },
                     data: hd
     };
-            
+
     try {
             if(act == 'put') {
                 client.put("https://"+dev+":55443/api/v1/"+u, args2, function (d, r) {
@@ -182,22 +186,22 @@ cisco.csrcall2 = function(devname, url, hdata, action, callback) {
 	               console.log('something went wrong on the get request', err.request.options);
                 });
             }
-        return; 
+        return;
     } catch(ex) {
          console.log("internal exception");
     }
 };
 
 // action functions description
-cisco.action_functions = [ 
-  { 
+cisco.action_functions = [
+  {
     name: 'anone',
     descr: 'No Action',
     call: function() {
         // no action
     }
   },
-  { 
+  {
     name: 'afunc1',
     descr: 'CSR-WAN Gi3 down',
     call: function() {
@@ -207,7 +211,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'interfaces/gigabitEthernet3/state',hdata,'put');
     }
   },
-  { 
+  {
     name: 'afunc2',
     descr: 'CSR-WAN Gi3 up',
     call: function() {
@@ -217,7 +221,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'interfaces/gigabitEthernet3/state',hdata,'put');
     }
   },
-  { 
+  {
     name: 'afunc3',
     descr: 'CSR-WAN Gi3 enable ACL STOP80',
     call: function() {
@@ -227,7 +231,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOP80/interfaces',hdata,'post');
     }
   },
-  { 
+  {
     name: 'afunc4',
     descr: 'CSR-WAN Gi3 disable ACL STOP80',
     call: function() {
@@ -236,7 +240,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOP80/interfaces/gigabitEthernet3_inside',hdata,'delete');
     }
   },
-  { 
+  {
     name: 'afunc5',
     descr: 'CSR-WAN Gi3 enable ACL STOP22',
     call: function() {
@@ -246,7 +250,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOP22/interfaces',hdata,'post');
     }
   },
-  { 
+  {
     name: 'afunc6',
     descr: 'CSR-WAN Gi3 disable ACL STOP22',
     call: function() {
@@ -255,7 +259,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOP22/interfaces/gigabitEthernet3_inside',hdata,'delete');
     }
   },
-  { 
+  {
     name: 'afunc7',
     descr: 'CSR-AWS Gi1 enable ACL STOP80',
     call: function() {
@@ -265,7 +269,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOP80/interfaces',hdata,'post');
     }
   },
-  { 
+  {
     name: 'afunc8',
     descr: 'CSR-AWS Gi1 disable ACL STOP80',
     call: function() {
@@ -274,7 +278,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOP80/interfaces/gigabitEthernet1_inside',hdata,'delete');
     }
   },
-  { 
+  {
     name: 'afunc9',
     descr: 'CSR-AWS Gi1 enable ACL STOPPING',
     call: function() {
@@ -284,7 +288,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOPPING/interfaces',hdata,'post');
     }
   },
-  { 
+  {
     name: 'afunc10',
     descr: 'CSR-AWS Gi1 disable ACL STOPPING',
     call: function() {
@@ -293,7 +297,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOPPING/interfaces/gigabitEthernet1_inside',hdata,'delete');
     }
   },
-  { 
+  {
     name: 'afunc11',
     descr: 'CSR-AWS Gi1 enable ACL STOP443',
     call: function() {
@@ -303,7 +307,7 @@ cisco.action_functions = [
         cisco.csrcall2(device,'acl/STOP443/interfaces',hdata,'post');
     }
   },
-  { 
+  {
     name: 'afunc12',
     descr: 'CSR-AWS Gi1 disable ACL STOP443',
     call: function() {
@@ -334,14 +338,14 @@ cisco.call_afunc = function(name) {
 };
 // read functions description
 cisco.read_functions = [
-  { 
+  {
     name: 'rnone',
     descr: 'No Action',
     call: function() {
-        
+
     }
   },
-  { 
+  {
     name: 'rfunc1',
     descr: 'Gi3 down on CSR-WAN',
     call: function(cback) {
@@ -363,7 +367,7 @@ cisco.read_functions = [
         return;
     }
   },
-  { 
+  {
     name: 'rfunc2',
     descr: 'Gi3 up on CSR-WAN',
     call: function(cback) {
@@ -385,7 +389,7 @@ cisco.read_functions = [
         return;
     }
   },
-  { 
+  {
     name: 'rfunc3',
     descr: 'Gi1 up on CSR-AWS',
     call: function(cback) {

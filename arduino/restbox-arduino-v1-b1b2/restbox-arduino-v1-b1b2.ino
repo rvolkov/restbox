@@ -1,18 +1,18 @@
 #include <Ethernet.h>
 #include <NewPing.h>
 
-// uncomment it to have logging to serial console
 //#define SERIALCON  1
 
 char boxname[] = "b1";          // name of this controller
 //char boxname[] = "b2";          // name of this controller
-char secret[] = "cisco";    // password for main controller
+char secret[] = "cisco123";    // password for main controller
 char server[] = "yourserver.herokuapp.com";
 int port = 80;
 
 // fallback server and IP if DHCP failed
-IPAddress ipad(1,1,2,2);
+IPAddress ipad(1,1,250,2);
 
+/////////////////// Modules //////////////
 // usonic module
 #define TRIGGER_PIN  8  // Arduino pin tied to trigger pin on the ultrasonic sensor.
 #define ECHO_PIN     9  // Arduino pin tied to echo pin on the ultrasonic sensor.
@@ -21,7 +21,8 @@ NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and
 char usonic_type[] = "usonic";
 char usonic_id[] = "0";
 unsigned int distance = 0;
-unsigned int distancecount = 0;
+#define DEF_D_COUNT 7
+unsigned int distancecount = DEF_D_COUNT;
 
 // redbutton module
 #define REDBUTTON_PIN 2
@@ -29,7 +30,8 @@ char redbutton_type[] = "button";
 char redbutton_id[] = "0";
 bool need_to_send_redbutton = false;
 int redbutton_status = 0;
-unsigned int redbutton_count = 5;
+#define DEF_RB_COUNT  4
+unsigned int redbutton_count = DEF_RB_COUNT;
 
 // switch module
 #define SWITCH_PIN    3
@@ -37,23 +39,29 @@ char switch_type[] = "switch";
 char switch_id[] = "0";
 bool need_to_send_switch = false;
 int switch_status = 0;
-unsigned int switch_count = 5;
+#define DEF_SW_COUNT  5
+unsigned int switch_count = DEF_SW_COUNT;
 
 // led module
 #define LED1_PIN      5
 char led1_type[] = "led";
 char led1_id[] = "0";
 int led1_status = 0;
-unsigned int led1count = 5;
+#define DEF_LED1_COUNT  8
+unsigned int led1count = DEF_LED1_COUNT;
 
 // led module
 #define LED2_PIN      6
 char led2_type[] = "led";
 char led2_id[] = "1";
 int led2_status = 0;
-unsigned int led2count = 5;
+#define DEF_LED2_COUNT  7
+unsigned int led2count = DEF_LED2_COUNT;
 
-byte mac[] = {0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f};
+//////////////////////////
+
+byte mac[] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x1f};
+//byte mac[] = {0x10, 0x10, 0x10, 0x10, 0x10, 0x2f};
 EthernetClient client;
 
 void sendPUT(char *type, char *id, unsigned int value) {
@@ -119,13 +127,12 @@ int sendGET(char *type, char *id) {
         }
         if(client.available() && client.connected()) {
             char ch = client.read();
-            if(ch == -1) break;  
+            if(ch == -1) break;
             if(ch == '{') {
               begin = true;
             }
             if(begin) response += (ch);
             if(ch == '}') break;
-            //Serial.write(response);
         }
       }
 #ifdef SERIALCON
@@ -136,7 +143,7 @@ int sendGET(char *type, char *id) {
       String msg = response.substring(start);
       response = "";
       return msg.toInt();
-   } 
+   }
    return 0;
 }
 
@@ -149,7 +156,7 @@ void setup() {
 #endif
   if(Ethernet.begin(mac) == 0) {
     Ethernet.begin(mac, ipad);
-    strncpy(server,"1.1.2.1",sizeof(server));
+    strncpy(server,"1.1.250.1",sizeof(server));
     port = 3001;
 #ifdef SERIALCON
     Serial.println("fallback ethernet configuration");
@@ -259,10 +266,10 @@ void loop() {
       }
       prevdist = d;
     }
-    distancecount = 8;
+    distancecount = DEF_D_COUNT;
   }
   distancecount--;
-  // check switch once per 7 cycles
+  // check switch once per DEF_SW_COUNT cycles
   if(switch_count == 0) {
     // read switch status
     int switchState = digitalRead(SWITCH_PIN);
@@ -272,7 +279,7 @@ void loop() {
 #ifdef SERIALCON
       Serial.println("switch off");
 #endif
-    } 
+    }
     if(switchState == HIGH && switch_status == 0){
       switch_status = 1;
       need_to_send_switch = true;
@@ -285,10 +292,10 @@ void loop() {
       sendPUT(switch_type,switch_id,switch_status);
       need_to_send_switch = false;
     }
-    switch_count = 7;
+    switch_count = DEF_SW_COUNT;
   }
   switch_count--;
-  // check redbutton once per 6 cycles
+  // check redbutton once per DEF_RB_COUNT cycles
   if(redbutton_count == 0) {
     // read red button status
     int redbuttonState = digitalRead(REDBUTTON_PIN);
@@ -298,7 +305,7 @@ void loop() {
 #endif
       redbutton_status = 0;
       need_to_send_redbutton = true;
-    } 
+    }
     if(redbuttonState == HIGH && redbutton_status == 0){
 #ifdef SERIALCON
       Serial.println("redbutton on");
@@ -311,10 +318,10 @@ void loop() {
       sendPUT(redbutton_type,redbutton_id,redbutton_status);
       need_to_send_redbutton = false;
     }
-    redbutton_count = 6;
+    redbutton_count = DEF_RB_COUNT;
   }
   redbutton_count--;
-  // ask led1 status once per 10 cycles
+  // ask led1 status once per DEF_LED1_COUNT cycles
   if(led1count == 0) {
     int nl1 = sendGET(led1_type,led1_id);
     if(nl1 != led1_status) {
@@ -325,10 +332,10 @@ void loop() {
       }
       led1_status = nl1;
     }
-    led1count = 10;
+    led1count = DEF_LED1_COUNT;
   }
   led1count--;
-  // ask led2 status once per 9 cycles
+  // ask led2 status once per DEF_LED2_COUNT cycles
   if(led2count == 0) {
     int nl2 = sendGET(led2_type,led2_id);
     if(nl2 != led2_status) {
@@ -339,7 +346,7 @@ void loop() {
       }
       led2_status = nl2;
     }
-    led2count = 9;
+    led2count = DEF_LED2_COUNT;
   }
   led2count--;
 }

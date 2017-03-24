@@ -17,6 +17,11 @@ restBox.config(['$routeProvider','$locationProvider',function ($routeProvider,$l
     controller: 'MainCtrl',
     access: { requiredLogin: true }
   })
+  .when('/restboxedit', {
+    templateUrl: 'views/restboxedit.html',
+    controller: 'EditCtrl',
+    access: { requiredLogin: true }
+  })
   .otherwise({
     redirectTo: '/'
   });

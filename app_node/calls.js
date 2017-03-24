@@ -201,4 +201,11 @@ exports.apicalls = function(app) {
         var items = JSON.stringify(cfg.routers);
         res.status(200).json({message: items});
     });
+    // - force csr re-auth
+    app.put('/webapi/csr/reauth', function(req, res) {
+        console.log('* call for /webapi/csr/reauth');
+        cisco.reauth(function(data){
+            res.status(200).json({message: 'ok'});
+        });
+    });
 };
